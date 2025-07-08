@@ -1,0 +1,170 @@
+[gd_scene load_steps=6 format=3 uid="uid://bgw3p3k3868yu"]
+
+[ext_resource type="Script" uid="uid://c7y7gbe2khn5r" path="res://addons/DogsToolkit/musiq/musiq.gd" id="1_pfhkn"]
+[ext_resource type="PackedScene" uid="uid://dxembjmiqg253" path="res://addons/DogsToolkit/musiq/note_player.tscn" id="2_2chml"]
+[ext_resource type="Script" uid="uid://t5h3ml5ivu6o" path="res://addons/DogsToolkit/musiq/MidiConverter.gd" id="3_4f4vm"]
+[ext_resource type="Script" uid="uid://bvewlcwwglcry" path="res://addons/DogsToolkit/musiq/song_display.gd" id="4_4xxj8"]
+[ext_resource type="PackedScene" uid="uid://d33en75o5adm7" path="res://addons/DogsToolkit/musiq/chord.tscn" id="5_6stq7"]
+
+[node name="musiq" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pfhkn")
+metadata/_edit_use_anchors_ = true
+
+[node name="AudioStreamPlayer" parent="." instance=ExtResource("2_2chml")]
+
+[node name="MidiConverter" type="Node" parent="."]
+script = ExtResource("3_4f4vm")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -77.0
+offset_bottom = 97.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+
+[node name="SongDisplay" type="HBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+alignment = 1
+script = ExtResource("4_4xxj8")
+
+[node name="Chord" parent="ScrollContainer/SongDisplay" instance=ExtResource("5_6stq7")]
+layout_mode = 2
+
+[node name="NewChord" type="Button" parent="ScrollContainer/SongDisplay"]
+layout_mode = 2
+text = " + "
+
+[node name="UIBottom" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="Play" type="Button" parent="UIBottom"]
+layout_mode = 2
+text = "play song"
+
+[node name="FileName" type="LineEdit" parent="UIBottom"]
+layout_mode = 2
+placeholder_text = "File Name"
+expand_to_text_length = true
+
+[node name="Export" type="Button" parent="UIBottom"]
+layout_mode = 2
+text = "export to .mid"
+
+[node name="UITop" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 58.0
+grow_horizontal = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UITop"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UITop/HBoxContainer2"]
+layout_mode = 2
+text = "Beats Per Minute: "
+
+[node name="BPM" type="SpinBox" parent="UITop/HBoxContainer2"]
+layout_mode = 2
+min_value = 1.0
+max_value = 999.0
+value = 120.0
+allow_greater = true
+
+[node name="TimeSignature" type="Label" parent="UITop/HBoxContainer2"]
+layout_mode = 2
+text = "Time Signature: "
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UITop/HBoxContainer2"]
+layout_mode = 2
+
+[node name="Numerator" type="SpinBox" parent="UITop/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+value = 4.0
+allow_greater = true
+
+[node name="Denominator" type="SpinBox" parent="UITop/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+value = 4.0
+allow_greater = true
+
+[node name="Label2" type="Label" parent="UITop/HBoxContainer2"]
+layout_mode = 2
+text = "Key Signature: "
+
+[node name="OptionButton" type="OptionButton" parent="UITop/HBoxContainer2"]
+layout_mode = 2
+selected = 0
+item_count = 11
+popup/item_0/text = "Major"
+popup/item_0/id = 0
+popup/item_1/text = "Natural Minor"
+popup/item_1/id = 1
+popup/item_2/text = "Harmonic Minor"
+popup/item_2/id = 2
+popup/item_3/text = "Melodic Minor"
+popup/item_3/id = 3
+popup/item_4/text = "Ionian"
+popup/item_4/id = 4
+popup/item_5/text = "Dorian"
+popup/item_5/id = 5
+popup/item_6/text = "Phrygian"
+popup/item_6/id = 6
+popup/item_7/text = "Lydian"
+popup/item_7/id = 7
+popup/item_8/text = "Mixolydian"
+popup/item_8/id = 8
+popup/item_9/text = "Aeolion"
+popup/item_9/id = 9
+popup/item_10/text = "Locrian"
+popup/item_10/id = 10
+
+[node name="Label3" type="Label" parent="UITop/HBoxContainer2"]
+layout_mode = 2
+text = "Root Note: "
+
+[node name="SpinBox" type="SpinBox" parent="UITop/HBoxContainer2"]
+layout_mode = 2
+max_value = 127.0
+value = 60.0
+
+[node name="RootNote" type="Label" parent="UITop/HBoxContainer2"]
+layout_mode = 2
+text = "3C/B#"
+
+[node name="ExportPath" type="Label" parent="UITop"]
+layout_mode = 2
+
+[node name="Dismiss" type="Button" parent="UITop"]
+visible = false
+layout_mode = 2
+text = "dismiss"
+
+[connection signal="pressed" from="ScrollContainer/SongDisplay/NewChord" to="ScrollContainer/SongDisplay" method="_on_new_chord_pressed"]
+[connection signal="pressed" from="UIBottom/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="UIBottom/Export" to="." method="_on_export_pressed"]
+[connection signal="value_changed" from="UITop/HBoxContainer2/BPM" to="." method="_on_bpm_value_changed"]
+[connection signal="value_changed" from="UITop/HBoxContainer2/VBoxContainer/Numerator" to="." method="_on_numerator_value_changed"]
+[connection signal="value_changed" from="UITop/HBoxContainer2/VBoxContainer/Denominator" to="." method="_on_denominator_value_changed"]
+[connection signal="item_selected" from="UITop/HBoxContainer2/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="value_changed" from="UITop/HBoxContainer2/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="pressed" from="UITop/Dismiss" to="." method="_on_button_pressed"]

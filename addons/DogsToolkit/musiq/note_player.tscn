@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxembjmiqg253"]
+
+[ext_resource type="Script" uid="uid://tairenuyn7q" path="res://addons/DogsToolkit/musiq/sine_generator.gd" id="1_1ds8w"]
+[ext_resource type="AudioStream" uid="uid://w4l2lhr1k8t2" path="res://addons/DogsToolkit/instrument.ogg" id="2_7pxuq"]
+
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_02t70"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer"]
+stream = SubResource("AudioStreamGenerator_02t70")
+volume_db = -20.0
+max_polyphony = 4
+script = ExtResource("1_1ds8w")
+real_sample = ExtResource("2_7pxuq")
+use_sine = true
